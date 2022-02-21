@@ -10,9 +10,12 @@
             for($i=0;$i<4;$i++){
 
                 echo "<td>";
-                    $ruta
-
+                echo "<img src='./fotos/'.$i>";
+                echo "</td>";
+            
             }
+            echo "</tr>";
+            echo "</table>";
         ?>
     </body>
 
