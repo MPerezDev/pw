@@ -3,6 +3,17 @@
     <head>
         <h2> Ejercicio 1 Relación 2 </h2>
     </head>
+
+    <FORM METHOD=POST>
+            ¿Sin ánimo de lucro tú qué prefieres?
+            <br/>
+            <INPUT NAME="opcion" TYPE="radio" VALUE="pizza" CHECKED="checked"> Una pizza
+            <br/>
+            <INPUT NAME="opcion" TYPE="radio" VALUE="valeriana"> Que tú le devuelvas siete cajas de valeriana
+            <br/>
+            <INPUT TYPE="submit" VALUE="Enviar">
+        </FORM>
+
     <body>
         <?php
         $conexion = mysqli_connect("127.0.0.1","cursophp","","lindavista");
