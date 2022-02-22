@@ -10,7 +10,7 @@
             for($i=0;$i<4;$i++){
 
                 echo "<td>";
-                echo "<img src='./fotos/'.$i>";
+                echo '<img src="./fotos/'.$i.'.jpg">';
                 echo "</td>";
             
             }
