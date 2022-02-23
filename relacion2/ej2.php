@@ -1,7 +1,7 @@
 <html>
 
     <head>
-        <h2> Ejercicio 1 Relación 2 </h2>
+        <h2> Ejercicio 2 Relación 2 </h2>
     </head>
 
     <FORM METHOD=POST>
@@ -16,36 +16,73 @@
 
     <body>
         <?php
-        $conexion = mysqli_connect("127.0.0.1","cursophp","","lindavista");
-        $consulta = mysqli_query($conexion, "SELECT * FROM noticias");
-        $nfilas = mysqli_num_rows ($consulta);
+            if($_POST){
+                $formulario = $_POST["opcion"];
+                $conexion = mysqli_connect("127.0.0.1","cursophp","","lindavista");
+                $consulta = mysqli_query($conexion, "SELECT * FROM votos");
+                $nfilas = mysqli_num_rows ($consulta);
+
+                if($formulario == "pizza"){
+                    echo "<table border=5>";
+                    if($nfilas > 0){
+                        for($i=0; $i<$nfilas; $i++){
+                            
+                            $fila = mysqli_fetch_array ($consulta);
+                            $resultado = $fila["votos1"] + 1;
+                            echo "<tr>";
+                            echo "<td>".$fila["id"]."</td>";
+                            echo "<td>".$resultado."</td>";
+                            echo "<td>".$fila["votos2"]."</td>";
+                            echo "</tr>";
+                            $consulta = mysqli_query($conexion,"UPDATE votos SET votos1 = $resultado");
+                        }
+
+                    }else{
+                        $fila = mysqli_fetch_array ($consulta);
+                        $resultado = $fila["votos1"] + 1;
+                        echo "<tr>";
+                        echo "<td>";
+                        echo $fila;
+                        echo "</td>";
+                        echo "</tr>";
+                        $consulta = mysqli_query($conexion,"UPDATE votos SET votos1 = $resultado");
+                    }
+
+                    echo "</table>";
+                }else{
+                    echo "<table border=5>";
+                    if($nfilas > 0){
+                        for($i=0; $i<$nfilas; $i++){
+                            
+                            $fila = mysqli_fetch_array ($consulta);
+                            $resultado = $fila["votos2"] +1;
+                            echo "<tr>";
+                            echo "<td>".$fila["id"]."</td>";
+                            echo "<td>".$fila["votos1"]."</td>";
+                            echo "<td>".$resultado."</td>";
+                            echo "</tr>";
+                            $consulta = mysqli_query($conexion,"UPDATE votos SET votos2 = $resultado");
+                        }
+
+                    }else{
+                        $fila = mysqli_fetch_array ($consulta);
+                        $resultado = $fila["votos2"] + 1;
+                        echo "<tr>";
+                        echo "<td>";
+                        echo $fila;
+                        echo "</td>";
+                        echo "</tr>";
+                        $consulta = mysqli_query($conexion,"UPDATE votos SET votos2 = $resultado");
+                    }
+
+                    echo "</table>";
+                }
         
-        echo "<table border=5>";
-        if($nfilas > 0){
-            for($i=0; $i<$nfilas; $i++){
+                
+                mysqli_close($conexion);
 
-                $fila = mysqli_fetch_array ($consulta);
-                echo "<tr>";
-                echo "<td>".$fila["id"]."</td>";
-                echo "<td>".$fila["titulo"]."</td>";
-                echo "<td>".$fila["texto"]."</td>";
-                echo "<td>".$fila["categoria"]."</td>";
-                echo "<td>".$fila["fecha"]."</td>";
-                echo "<td>".$fila["imagen"]."</td>";
-                echo "</tr>";
             }
-
-        }else{
-            $fila = mysqli_fetch_array ($consulta);
-            echo "<tr>";
-            echo "<td>";
-            echo $fila[0];
-            echo "</td>";
-            echo "</tr>";
-        }
-
-        echo "</table>";
-        mysqli_close($conexion);
+        
 
         ?>
     </body>
