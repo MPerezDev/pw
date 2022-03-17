@@ -16,8 +16,15 @@
         </FORM>
 
         <?php
-             $conexion = mysqli_connect("127.0.0.1","root","","bduca");
-             $consulta = mysqli_query($conexion, "SELECT id_usuario, tipo FROM usuario WHERE ");
+
+            $passwd = password_hash($_GET["passwd"], PASSWORD_DEFAULT, [10]);
+            //Hay que conseguir que siempre se utilice el mismo salt para no variar la contraseña.
+
+
+
+            $conexion = mysqli_connect("127.0.0.1","root","","bduca");
+            $consulta = mysqli_query($conexion, "SELECT id_usuario, tipo FROM usuario WHERE correo = $_GET["correo"] AND passwd = $passwd);
+            
 
         ?>
     </body>
