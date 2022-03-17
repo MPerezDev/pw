@@ -1,11 +1,14 @@
 <html>
 
     <head>
-        <h2> Ejercicio 1 </h2>
+        
     </head>
     <body>
         <?php
-        
+        $passwd='c123456';
+        $hash = password_hash($passwd, PASSWORD_DEFAULT, [10]);
+        echo "$hash";
+
         ?>
     </body>
 
