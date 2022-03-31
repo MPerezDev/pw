@@ -1,44 +1,57 @@
 <html>
 
     <head>
-    <h2> Sistema de exámenes P1 </h2>  
+    <h1> Sistema de exámenes P1 </h1>  
     </head>
     <body>
 
-    <FORM METHOD=GET>
+    <FORM METHOD=POST>
             Correo electrónico:
             <INPUT NAME="correo" TYPE="text" SIZE=15 MAXLENGTH=100>
             <br/>
             Contraseña:
-            <INPUT NAME="passwd" TYPE="text" SIZE=15 MAXLENGTH=10>
+            <INPUT NAME="passwd" TYPE="password" SIZE=15 MAXLENGTH=10>
             <br/>
             <INPUT TYPE="submit" VALUE="Iniciar sesión">
         </FORM>
 
         <?php
-            $passwd= $_GET['passwd'];
-            $correo= $_GET['correo'];
-            $hash = password_hash($passwd, PASSWORD_DEFAULT, [10]);
-
-             $conexion = mysqli_connect("127.0.0.1","root","","bduca");
-             $consulta = mysqli_query($conexion, "SELECT id_usuario, tipo, passwd FROM usuario WHERE correo = $correo");
+            if(isset($_POST['correo']) && isset($_POST['passwd'])){
             
-            //Si la consulta arroja un resultado (existe el usuario indicado y tiene asociada la contraseña indicada)
-            //abrimos una sesión, que va a enlazar con una página en función del tipo de usuario que sea.
-            //¿Volver atrás y mostrar mensaje de error en el caso de que no?
+                $passwd= $_POST['passwd'];
+                $correo= $_POST['correo'];
+                $conexion = mysqli_connect("127.0.0.1","root","","bduca");
 
-            $fila = mysqli_fetch_array($consulta);
+                $consulta = mysqli_query($conexion, "SELECT id_usuario, tipo, passwd FROM usuario WHERE correo = '".$correo."'");
 
-            if(mysqli_num_rows() == 1 && password_verify($fila["passwd"], $hash)){ //Si solamente hay una coincidencia significa que el usuario existe y ha metido los datos correctamente.
-                              
-                session_start();
-                
+                $fila = mysqli_fetch_array($consulta);
+                $nfilas = mysqli_num_rows($consulta);
+                mysqli_close($conexion);
 
+                if($nfilas == 1 && password_verify($passwd, $fila["passwd"])){ //Si solamente hay una coincidencia significa que el usuario existe y ha metido los datos correctamente.
+                    
+                    $hash = password_hash($passwd, PASSWORD_DEFAULT, [10]);
+                    session_start();
+                    $_SESSION['id_usuario'] = $fila["id_usuario"];
 
+                    switch($fila["tipo"]){
+                        
+                        case 1:
 
+                            break;
+                        
+                        case 2:
 
-            }else{
+                            break;
 
+                    }
+
+                }else{
+
+                    echo "<h3> Usuario/contraseña incorrectos </h3>";
+
+                }
+            
             }
             
 
